@@ -47,7 +47,7 @@ ROOT_URLCONF = 'stripe_django.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
+        'DIRS': [BASE_DIR / 'payments/templates']
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -123,9 +123,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Stripe Configuration
 STRIPE_PUBLISHABLE_KEY_USD = os.getenv('STRIPE_PUBLISHABLE_KEY_USD')
 STRIPE_SECRET_KEY_USD = os.getenv('STRIPE_SECRET_KEY_USD')
+
 STRIPE_PUBLISHABLE_KEY_EUR = os.getenv('STRIPE_PUBLISHABLE_KEY_EUR')
 STRIPE_SECRET_KEY_EUR = os.getenv('STRIPE_SECRET_KEY_EUR')
-STRIPE_WEBHOOK_SECRET = os.getenv('STRIPE_WEBHOOK_SECRET')
 
 # Stripe key mapping by currency
 STRIPE_KEYS = {
