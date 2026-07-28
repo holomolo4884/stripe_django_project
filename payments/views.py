@@ -125,8 +125,8 @@ def create_order(request):
             payment_method_types=['card'],
             line_items=line_items,
             mode='payment',
-            success_url='https://stripe-demo-xp4h.onrender.com/success',
-            cancel_url='https://stripe-demo-xp4h.onrender.com/cancel',
+            success_url='http://localhost:8000/success/',
+            cancel_url='http://localhost:8000/cancel/',
         )
 
         order.stripe_session_id = session.id

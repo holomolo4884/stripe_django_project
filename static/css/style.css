@@ -1,368 +1,96 @@
-/* Сброс стилей */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 40px auto;
     padding: 20px;
+    background: #f5f5f5;
 }
 
-/* СТРАНИЦА ТОВАРА (item_detail.html) */
+h1 { text-align: center; color: #333; }
 
-/* Градиентный фон для страницы товара */
-body.item-page {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
 }
 
-.container {
+.card {
     background: white;
-    border-radius: 20px;
-    padding: 40px;
-    max-width: 450px;
-    width: 100%;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease;
-}
-
-.container:hover {
-    transform: translateY(-5px);
-}
-
-.currency-badge {
-    display: inline-block;
-    background: #48bb78;
-    color: white;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-}
-
-h1 {
-    font-size: 28px;
-    color: #2d3748;
-    margin-bottom: 5px;
-}
-
-.price {
-    font-size: 36px;
-    font-weight: 700;
-    color: #667eea;
-    margin: 15px 0;
-}
-
-.price small {
-    font-size: 18px;
-    color: #718096;
-    font-weight: 400;
-}
-
-.description {
-    color: #4a5568;
-    line-height: 1.6;
-    margin: 20px 0;
-    padding: 15px;
-    background: #f7fafc;
+    padding: 20px;
     border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
 }
 
-/* Кнопка покупки */
-.buy-button {
+.card h2 { color: #333; margin: 0 0 10px; }
+.card .price { color: #6772e5; font-size: 24px; font-weight: bold; }
+.card .desc { color: #666; font-size: 14px; margin: 10px 0; }
+.card a, .result a {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #6772e5;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+.card a:hover, .result a:hover { background: #5469d4; }
+
+.badge {
+    display: inline-block;
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+button {
     width: 100%;
-    padding: 16px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 15px;
+    background: #6772e5;
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 5px;
     font-size: 18px;
-    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 20px;
 }
+button:hover { background: #5469d4; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
 
-.buy-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-}
-
-.buy-button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-}
-
-/* Информация о тестовой карте */
-.test-card {
+.info {
     margin-top: 20px;
     padding: 15px;
-    background: #f0fff4;
-    border-left: 4px solid #48bb78;
+    background: #f8f9fa;
     border-radius: 5px;
     font-size: 14px;
-    color: #2f855a;
+    color: #666;
 }
+.info strong { display: block; color: #333; margin-bottom: 5px; }
 
-.test-card strong {
-    display: block;
-    margin-bottom: 5px;
-}
-
-.back-link {
-    display: inline-block;
-    margin-top: 15px;
-    color: #718096;
-    text-decoration: none;
-    font-size: 14px;
-    transition: color 0.3s;
-}
-
-.back-link:hover {
-    color: #4a5568;
-}
-
-/* Индикатор загрузки */
-.loading {
-    display: none;
-    text-align: center;
-    margin-top: 15px;
-    color: #718096;
-}
-
-.loading.active {
-    display: block;
-}
-
-.spinner {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    border: 3px solid #e2e8f0;
-    border-radius: 50%;
-    border-top-color: #667eea;
-    animation: spin 1s ease-in-out infinite;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-/* ГЛАВНАЯ СТРАНИЦА (home.html) */
-
-body.home-page {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-.home-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px 20px;
-    width: 100%;
-}
-
-.home-title {
-    color: white;
-    font-size: 48px;
-    text-align: center;
-    margin-bottom: 10px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.home-subtitle {
-    color: rgba(255, 255, 255, 0.9);
-    text-align: center;
-    font-size: 18px;
-    margin-bottom: 40px;
-}
-
-.items-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    padding: 20px 0;
-}
-
-.item-card {
+.result {
     background: white;
-    border-radius: 15px;
-    padding: 30px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-}
-
-.item-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-}
-
-.item-card .item-name {
-    font-size: 24px;
-    font-weight: 700;
-    color: #2d3748;
-    margin-bottom: 10px;
-}
-
-.item-card .item-price {
-    font-size: 32px;
-    font-weight: 700;
-    color: #667eea;
-    margin: 15px 0;
-}
-
-.item-card .item-price small {
-    font-size: 18px;
-    color: #718096;
-    font-weight: 400;
-}
-
-.item-card .item-description {
-    color: #4a5568;
-    font-size: 14px;
-    line-height: 1.5;
-    margin: 15px 0;
-    padding: 15px;
-    background: #f7fafc;
-    border-radius: 8px;
-}
-
-.item-card .item-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.btn {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    padding: 50px;
+    border-radius: 10px;
     text-align: center;
-    text-decoration: none;
+    max-width: 400px;
+    margin: 0 auto;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
-
-.btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-}
+.result .icon { font-size: 60px; }
+.result h1 { color: #333; margin: 20px 0 10px; }
+.result p { color: #666; margin-bottom: 30px; }
+.result.success { background: white; }
+.result.cancel { background: white; }
 
 .admin-link {
     display: block;
     text-align: center;
-    margin-top: 40px;
-    color: rgba(255, 255, 255, 0.8);
+    margin-top: 30px;
+    color: #999;
     text-decoration: none;
     font-size: 14px;
-    transition: color 0.3s;
 }
+.admin-link:hover { color: #666; }
 
-.admin-link:hover {
-    color: white;
-    text-decoration: underline;
-}
-
-/* СТРАНИЦЫ УСПЕХА И ОТМЕНЫ */
-
-body.result-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-}
-
-/* Успешная оплата */
-body.success-page {
-    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
-}
-
-/* Отмена оплаты */
-body.cancel-page {
-    background: linear-gradient(135deg, #fc8181 0%, #e53e3e 100%);
-}
-
-.result-container {
-    background: white;
-    border-radius: 20px;
-    padding: 50px;
-    max-width: 400px;
-    width: 100%;
-    text-align: center;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-}
-
-.result-icon {
-    font-size: 80px;
-    margin-bottom: 20px;
-}
-
-.result-title {
-    color: #2d3748;
-    font-size: 32px;
-    margin-bottom: 10px;
-}
-
-.result-text {
-    color: #718096;
-    font-size: 18px;
-    margin-bottom: 30px;
-}
-
-.btn-result {
-    display: inline-block;
-    padding: 14px 40px;
-    background: #667eea;
-    color: white;
-    text-decoration: none;
-    border-radius: 10px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-.btn-result:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-}
-
-/* АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ */
-
-@media (max-width: 640px) {
-    .home-title {
-        font-size: 32px;
-    }
-
-    .items-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .container {
-        padding: 30px 20px;
-    }
-
-    .result-container {
-        padding: 30px 20px;
-    }
-
-    .price {
-        font-size: 28px;
-    }
-}
+a.back { display: block; margin-top: 15px; color: #6772e5; text-decoration: none; font-size: 14px; }
+a.back:hover { text-decoration: underline; }

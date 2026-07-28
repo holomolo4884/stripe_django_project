@@ -1,42 +1,21 @@
 {% extends 'payments/base.html' %}
 
-{% block title %}Stripe Demo Store{% endblock %}
-
-{% block body_class %}home-page{% endblock %}
+{% block title %}Store{% endblock %}
 
 {% block content %}
-<div class="home-container">
-    <h1 class="home-title">🛍️ Stripe Demo Store</h1>
-    <p class="home-subtitle">Test your Stripe integration with these sample products</p>
-    
-    <div class="items-grid">
-        {% for item in items %}
-        <div class="item-card">
-            <div style="display: flex; justify-content: space-between; align-items: start;">
-                <h2 class="item-name">{{ item.name }}</h2>
-                <span class="currency-badge">{{ item.currency|upper }}</span>
-            </div>
-            <div class="item-price">
-                {{ item.price }} <small>{{ item.currency|upper }}</small>
-            </div>
-            <div class="item-description">
-                {{ item.description }}
-            </div>
-            <div class="item-actions">
-                <a href="{% url 'payments:item_detail' item.id %}" class="btn btn-primary">
-                    View Details
-                </a>
-            </div>
-        </div>
-        {% empty %}
-        <p style="color: white; text-align: center; grid-column: 1/-1; font-size: 18px;">
-            No items available. Please add some items in the admin panel.
-        </p>
-        {% endfor %}
+<h1>🛍️ Store</h1>
+<div class="grid">
+    {% for item in items %}
+    <div class="card">
+        <span class="badge">{{ item.currency|upper }}</span>
+        <h2>{{ item.name }}</h2>
+        <div class="price">{{ item.price }} {{ item.currency|upper }}</div>
+        <div class="desc">{{ item.description }}</div>
+        <a href="/item/{{ item.id }}/">Buy</a>
     </div>
-    
-    <a href="/admin/" class="admin-link" target="_blank">
-        🔐 Go to Admin Panel
-    </a>
+    {% empty %}
+    <p>No items yet.</p>
+    {% endfor %}
 </div>
+<a href="/admin/" class="admin-link">Admin</a>
 {% endblock %}
