@@ -12,33 +12,18 @@ class Item(models.Model):
         ('eur', 'EUR - Евро'),
     ]
 
-    name = models.CharField(
-        max_length=255,
-        verbose_name="Название"
-    )
-    description = models.TextField(
-        verbose_name="Описание"
-    )
+    name = models.CharField(max_length=255, verbose_name="Название")
+    description = models.TextField(verbose_name="Описание")
     price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
         validators=[MinValueValidator(0.01)],
         verbose_name="Цена"
     )
-    currency = models.CharField(
-        max_length=3,
-        choices=CURRENCY_CHOICES,
-        default='usd',
-        verbose_name="Валюта"
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name="Создан"
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True,
-        verbose_name="Обновлен"
-    )
+    currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES, default='usd',
+                                verbose_name="Валюта")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Создан")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Обновлен")
 
     def __str__(self):
         return f"{self.name} ({self.currency.upper()} {self.price})"
@@ -78,14 +63,8 @@ class Discount(models.Model):
         null=True,
         verbose_name="ID купона в Stripe"
     )
-    is_active = models.BooleanField(
-        default=True,
-        verbose_name="Активна"
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name="Создана"
-    )
+    is_active = models.BooleanField(default=True, verbose_name="Активна")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Создана")
 
     def __str__(self):
         return f"{self.name} ({self.value}{'%' if self.type == 'percentage' else ' USD'})"
@@ -121,7 +100,6 @@ class Tax(models.Model):
     Модель налога
     Может быть в процентах или фиксированной сумме
     """
-
     TAX_TYPE_CHOICES = [
         ('percentage', 'Процентный'),
         ('fixed', 'Фиксированный'),
@@ -146,14 +124,8 @@ class Tax(models.Model):
         null=True,
         verbose_name="ID налоговой ставки в Stripe"
     )
-    is_active = models.BooleanField(
-        default=True,
-        verbose_name="Активен"
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name="Создан"
-    )
+    is_active = models.BooleanField(default=True, verbose_name="Активен")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Создан")
 
     def __str__(self):
         return f"{self.name} ({self.value}{'%' if self.type == 'percentage' else ' USD'})"
@@ -191,7 +163,6 @@ class Order(models.Model):
     Модель заказа
     Объединяет несколько товаров в один заказ с общими скидками и налогами
     """
-
     STATUS_CHOICES = [
         ('pending', 'Ожидает оплаты'),
         ('paid', 'Оплачен'),
@@ -199,11 +170,7 @@ class Order(models.Model):
         ('refunded', 'Возвращен'),
     ]
 
-    items = models.ManyToManyField(
-        Item,
-        through='OrderItem',
-        verbose_name="Товары"
-    )
+    items = models.ManyToManyField(Item, through='OrderItem', verbose_name="Товары")
     discount = models.ForeignKey(
         Discount,
         on_delete=models.SET_NULL,
@@ -242,27 +209,15 @@ class Order(models.Model):
         default=0,
         verbose_name="Общая сумма"
     )
-    currency = models.CharField(
-        max_length=3,
-        default='usd',
-        verbose_name="Валюта"
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name="Создан"
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True,
-        verbose_name="Обновлен"
-    )
+    currency = models.CharField(max_length=3, default='usd', verbose_name="Валюта")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Создан")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Обновлен")
 
     def __str__(self):
         return f"Заказ #{self.id} - {self.status} ({self.currency.upper()} {self.total_amount})"
 
     def calculate_total(self):
-        """
-        Рассчет общей суммы заказа с учетом скидок и налогов
-        """
+        """Рассчет общей суммы заказа с учетом скидок и налогов"""
         subtotal = sum(item.price for item in self.items.all())
 
         discount_amount = 0
@@ -285,9 +240,7 @@ class Order(models.Model):
         return total
 
     def get_currency(self):
-        """
-        Определяем валюту заказа по первому товару
-        """
+        """Определяем валюту заказа по первому товару"""
         first_item = self.items.first()
         return first_item.currency if first_item else 'usd'
 
@@ -302,7 +255,6 @@ class OrderItem(models.Model):
     Промежуточная модель для связи Order и Item
     Позволяет хранить количество товара и цену на момент заказа
     """
-
     order = models.ForeignKey(
         Order,
         on_delete=models.CASCADE,
@@ -314,10 +266,7 @@ class OrderItem(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Товар"
     )
-    quantity = models.PositiveIntegerField(
-        default=1,
-        verbose_name="Количество"
-    )
+    quantity = models.PositiveIntegerField(default=1, verbose_name="Количество")
     price_at_time = models.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -328,9 +277,7 @@ class OrderItem(models.Model):
         return f"{self.item.name} x {self.quantity} в заказе #{self.order.id}"
 
     def save(self, *args, **kwargs):
-        """
-        При сохранении запоминаем текущую цену товара
-        """
+        """При сохранении запоминаем текущую цену товара"""
         if not self.price_at_time:
             self.price_at_time = self.item.price
         super().save(*args, **kwargs)
