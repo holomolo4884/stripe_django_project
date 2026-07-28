@@ -1,0 +1,55 @@
+{% extends 'payments/base.html' %}
+
+{% load static %}
+
+{% block title %}Buy {{ item.name }}{% endblock %}
+
+{% block body_class %}item-page{% endblock %}
+
+{% block init_data %}
+<!-- Передаем данные в JavaScript -->
+<script id="init-data" type="application/json">
+{
+    "type": "item",
+    "publishableKey": "{{ publishable_key }}",
+    "itemId": {{ item.id }}
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Бейдж с валютой -->
+    <span class="currency-badge">{{ item.currency|upper }}</span>
+    
+    <!-- Название товара -->
+    <h1>{{ item.name }}</h1>
+    
+    <!-- Цена -->
+    <div class="price">
+        {{ item.price }} <small>{{ item.currency|upper }}</small>
+    </div>
+    
+    <!-- Описание -->
+    <div class="description">{{ item.description }}</div>
+    
+    <!-- Кнопка покупки -->
+    <button id="buy-button" class="buy-button">Buy Now</button>
+    
+    <!-- Индикатор загрузки -->
+    <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <span style="display: block; margin-top: 10px;">Processing...</span>
+    </div>
+    
+    <!-- Тестовая карта -->
+    <div class="test-card">
+        <strong>💳 Test Card</strong>
+        4242 4242 4242 4242<br>
+        Any future date • Any 3 digits
+    </div>
+    
+    <!-- Ссылка назад -->
+    <a href="/" class="back-link">← Back to items</a>
+</div>
+{% endblock %}
