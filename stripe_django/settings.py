@@ -14,9 +14,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
+DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(",")
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,0.0.0.0').split(",")
 
 
 # Application definition
@@ -123,8 +123,8 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Stripe Configuration
-STRIPE_PUBLISHABLE_KEY_RUB = os.getenv('STRIPE_PUBLISHABLE_KEY_EUR')
-STRIPE_SECRET_KEY_RUB = os.getenv('STRIPE_SECRET_KEY_EUR')
+STRIPE_PUBLISHABLE_KEY_RUB = os.getenv('STRIPE_PUBLISHABLE_KEY_RUB')
+STRIPE_SECRET_KEY_RUB = os.getenv('STRIPE_SECRET_KEY_RUB')
 
 STRIPE_PUBLISHABLE_KEY_USD = os.getenv('STRIPE_PUBLISHABLE_KEY_USD')
 STRIPE_SECRET_KEY_USD = os.getenv('STRIPE_SECRET_KEY_USD')

@@ -1,0 +1,110 @@
+# PYTHON
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# DJANGO
+# Logs
+*.log
+local_settings.py
+
+# Database (в Docker используем PostgreSQL, SQLite не нужен)
+db.sqlite3
+db.sqlite3-journal
+
+# Static files (будут собраны в контейнере)
+staticfiles/
+media/
+
+# Environment variables
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# IDE
+# PyCharm
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# DOCKER
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# GIT
+.git/
+.gitignore
+
+# MISCELLANEOUS
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# временные файлы
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# файлы ОС
+.DS_Store
+Thumbs.db
