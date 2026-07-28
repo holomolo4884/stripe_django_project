@@ -1,14 +1,12 @@
 {% extends 'payments/base.html' %}
 
-{% block title %}Payment Canceled{% endblock %}
-
-{% block body_class %}result-page cancel-page{% endblock %}
+{% block title %}Canceled{% endblock %}
 
 {% block content %}
-<div class="result-container">
-    <div class="result-icon">❌</div>
-    <h1 class="result-title">Payment Canceled</h1>
-    <p class="result-text">Your payment was not completed. You can try again anytime.</p>
-    <a href="/" class="btn-result">Try Again</a>
+<div class="result cancel">
+    <div class="icon">❌</div>
+    <h1>Canceled</h1>
+    <p>Payment was canceled.</p>
+    <a href="/">Try Again</a>
 </div>
 {% endblock %}

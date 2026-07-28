@@ -1,23 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Stripe Demo{% endblock %}</title>
-
-    <!-- Подключаем Stripe JS (нужно для всех страниц) -->
+    <title>{% block title %}Stripe Store{% endblock %}</title>
     <script src="https://js.stripe.com/v3/"></script>
-
-    <!-- Подключаем статические файлы -->
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <script src="{% static 'js/main.js' %}"></script>
 </head>
-<body class="{% block body_class %}{% endblock %}">
-    <!-- Скрытые данные для JavaScript -->
-    {% block init_data %}{% endblock %}
-
-    <!-- Основной контент -->
+<body>
     {% block content %}{% endblock %}
 </body>
 </html>

@@ -1,55 +1,43 @@
 {% extends 'payments/base.html' %}
 
-{% load static %}
-
 {% block title %}Buy {{ item.name }}{% endblock %}
 
-{% block body_class %}item-page{% endblock %}
-
-{% block init_data %}
-<!-- Передаем данные в JavaScript -->
-<script id="init-data" type="application/json">
-{
-    "type": "item",
-    "publishableKey": "{{ publishable_key }}",
-    "itemId": {{ item.id }}
-}
-</script>
-{% endblock %}
-
 {% block content %}
-<div class="container">
-    <!-- Бейдж с валютой -->
-    <span class="currency-badge">{{ item.currency|upper }}</span>
-    
-    <!-- Название товара -->
+<div class="card">
+    <span class="badge">{{ item.currency|upper }}</span>
     <h1>{{ item.name }}</h1>
-    
-    <!-- Цена -->
-    <div class="price">
-        {{ item.price }} <small>{{ item.currency|upper }}</small>
-    </div>
-    
-    <!-- Описание -->
-    <div class="description">{{ item.description }}</div>
-    
-    <!-- Кнопка покупки -->
-    <button id="buy-button" class="buy-button">Buy Now</button>
-    
-    <!-- Индикатор загрузки -->
-    <div id="loading" class="loading">
-        <div class="spinner"></div>
-        <span style="display: block; margin-top: 10px;">Processing...</span>
-    </div>
-    
-    <!-- Тестовая карта -->
-    <div class="test-card">
+    <div class="price">{{ item.price }} {{ item.currency|upper }}</div>
+    <div class="desc">{{ item.description }}</div>
+
+    <button id="buy-btn">Buy Now</button>
+
+    <div class="info">
         <strong>💳 Test Card</strong>
         4242 4242 4242 4242<br>
         Any future date • Any 3 digits
     </div>
-    
-    <!-- Ссылка назад -->
-    <a href="/" class="back-link">← Back to items</a>
+
+    <a href="/">← Back</a>
 </div>
+
+<script>
+    var stripe = Stripe('{{ publishable_key }}');
+    var btn = document.getElementById('buy-btn');
+
+    btn.onclick = function() {
+        btn.disabled = true;
+        btn.textContent = 'Processing...';
+
+        fetch('/buy/{{ item.id }}')
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                return stripe.redirectToCheckout({ sessionId: data.id });
+            })
+            .catch(function(e) {
+                alert('Error: ' + e.message);
+                btn.disabled = false;
+                btn.textContent = 'Buy Now';
+            });
+    };
+</script>
 {% endblock %}
