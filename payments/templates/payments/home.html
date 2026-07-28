@@ -1,9 +1,9 @@
 {% extends 'payments/base.html' %}
 
-{% block title %}Store{% endblock %}
+{% block title %}Магазин{% endblock %}
 
 {% block content %}
-<h1>🛍️ Store</h1>
+<h1>🛍️ Магазин</h1>
 <div class="grid">
     {% for item in items %}
     <div class="card">
@@ -11,11 +11,11 @@
         <h2>{{ item.name }}</h2>
         <div class="price">{{ item.price }} {{ item.currency|upper }}</div>
         <div class="desc">{{ item.description }}</div>
-        <a href="/item/{{ item.id }}/">Buy</a>
+        <a href="/item/{{ item.id }}/">Купить</a>
     </div>
     {% empty %}
-    <p>No items yet.</p>
+    <p>Предметов пока нет.</p>
     {% endfor %}
 </div>
-<a href="/admin/" class="admin-link">Admin</a>
+<a href="/admin/" class="admin-link">Админ</a>
 {% endblock %}
