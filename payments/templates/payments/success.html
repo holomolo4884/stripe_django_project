@@ -1,0 +1,14 @@
+{% extends 'payments/base.html' %}
+
+{% block title %}Payment Successful{% endblock %}
+
+{% block body_class %}result-page success-page{% endblock %}
+
+{% block content %}
+<div class="result-container">
+    <div class="result-icon">✅</div>
+    <h1 class="result-title">Payment Successful!</h1>
+    <p class="result-text">Thank you for your purchase. Your order has been confirmed.</p>
+    <a href="/" class="btn-result">Continue Shopping</a>
+</div>
+{% endblock %}

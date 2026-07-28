@@ -8,10 +8,21 @@ from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
-from models import Item, Order, OrderItem, Discount, Tax
+from .models import Item, Order, OrderItem, Discount, Tax
+
+def home(request):
+    """
+    GET /
+    Главная страница со списком всех товаров
+    """
+    items = Item.objects.all()
+    return render(request, 'payments/home.html', {'items': items})
 
 def item_detail(request, item_id):
-    """GET /item/{id}/"""
+    """
+    GET /item/{id}/
+    Страница товара с кнопкой Buy
+    """
     item = get_object_or_404(Item, id=item_id)
     publishable_key = settings.STRIPE_KEYS[item.currency]['publishable']
     return render(
@@ -20,8 +31,21 @@ def item_detail(request, item_id):
         {'item': item, 'publishable_key': publishable_key}
     )
 
-def item_but(request, item_id):
-    """GET /but/{id}"""
+def success_page(request):
+    """Страница успешной оплаты"""
+    return render(request, 'payments/success.html')
+
+def cancel_page(request):
+    """Страница отмены оплаты"""
+    return render(request, 'payments/cancel.html')
+
+# API ЭНДПОИНТЫ
+
+def buy_item(request, item_id):
+    """
+    GET /but/{id}
+    Создает Stripe сессию и возвращает session.id
+    """
     try:
         item = get_object_or_404(Item, id=item_id)
         stripe.api_key = settings.STRIPE_KEYS[item.currency]['secret']
@@ -52,13 +76,12 @@ def item_but(request, item_id):
 @require_http_methods(['POST'])
 def create_order(request):
     """POST /api/create-order/"""
-
     try:
         data = json.loads(request.body)
         items_ids = data.get('items', [])
 
         if not items_ids:
-            return JsonResponse({'error': 'No items specified'}, status=400)
+            return JsonResponse({'error': 'Нет товаров'}, status=400)
 
         order = Order.objects.create()
         for item_id in items_ids:
@@ -147,11 +170,3 @@ def create_payment_intent(request):
 
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
-
-def success_page(request):
-    """Страница успешной оплаты"""
-    return render(request, 'payments/success.html')
-
-def cancel_page(request):
-    """Страница отмены оплаты"""
-    return render(request, 'payments/cancel.html')
