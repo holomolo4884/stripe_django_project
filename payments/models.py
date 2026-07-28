@@ -8,8 +8,8 @@ class Item(models.Model):
     Хранит информацию о продукте: название, описание, цену и валюту
     """
     CURRENCY_CHOICES = [
+        ('rub', 'RUB - Российский рубль'),
         ('usd', 'USD - Доллар США'),
-        ('eur', 'EUR - Евро'),
     ]
 
     name = models.CharField(max_length=255, verbose_name="Название")

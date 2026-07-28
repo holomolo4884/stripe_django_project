@@ -123,23 +123,23 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Stripe Configuration
+STRIPE_PUBLISHABLE_KEY_RUB = os.getenv('STRIPE_PUBLISHABLE_KEY_EUR')
+STRIPE_SECRET_KEY_RUB = os.getenv('STRIPE_SECRET_KEY_EUR')
+
 STRIPE_PUBLISHABLE_KEY_USD = os.getenv('STRIPE_PUBLISHABLE_KEY_USD')
 STRIPE_SECRET_KEY_USD = os.getenv('STRIPE_SECRET_KEY_USD')
 
-STRIPE_PUBLISHABLE_KEY_EUR = os.getenv('STRIPE_PUBLISHABLE_KEY_EUR')
-STRIPE_SECRET_KEY_EUR = os.getenv('STRIPE_SECRET_KEY_EUR')
-
 # Stripe key mapping by currency
 STRIPE_KEYS = {
+    'rub': {
+            'publishable': STRIPE_PUBLISHABLE_KEY_RUB,
+            'secret': STRIPE_SECRET_KEY_RUB,
+        },
     'usd': {
         'publishable': STRIPE_PUBLISHABLE_KEY_USD,
         'secret': STRIPE_SECRET_KEY_USD,
     },
-    'eur': {
-        'publishable': STRIPE_PUBLISHABLE_KEY_EUR,
-        'secret': STRIPE_SECRET_KEY_EUR,
-    },
 }
 
 # Default currency
-DEFAULT_CURRENCY = 'usd'
+DEFAULT_CURRENCY = 'rub'
