@@ -63,8 +63,8 @@ def buy_item(request, item_id):
                 'quantity': 1
             }],
             mode='payment',
-            success_url='https://stripe-demo-xp4h.onrender.com/success',
-            cancel_url='https://stripe-demo-xp4h.onrender.com/cancel',
+            success_url='http://localhost:8000/success/',
+            cancel_url='http://localhost:8000/cancel/',
         )
 
         return JsonResponse({'id': session.id})
