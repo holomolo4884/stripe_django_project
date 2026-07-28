@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: stripe_postgres
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build: .
+    container_name: stripe_django
+    ports:
+      - "8000:8000"
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=${DEBUG}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - DB_NAME=${DATABASE_NAME}
+      - DB_USER=${DATABASE_USER}
+      - DB_PASSWORD=${DATABASE_PASSWORD}
+      - DB_HOST=${DATABASE_HOST}
+      - DB_PORT=$(DATABASE_PORT}
+      - STRIPE_PUBLISHABLE_KEY_USD=${STRIPE_PUBLISHABLE_KEY_USD}
+      - STRIPE_SECRET_KEY_USD=${STRIPE_SECRET_KEY_USD}
+      - STRIPE_PUBLISHABLE_KEY_RUB=${STRIPE_PUBLISHABLE_KEY_RUB}
+      - STRIPE_SECRET_KEY_RUB=${STRIPE_SECRET_KEY_RUB}
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - static_volume:/app/staticfiles
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py createsuperuser --noinput --username admin --email admin@example.com 2>/dev/null || true &&
+             gunicorn --bind 0.0.0.0:8000 stripe_django.wsgi:application"
+
+volumes:
+  postgres_data:
+  static_volume:
